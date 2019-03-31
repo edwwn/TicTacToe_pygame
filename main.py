@@ -31,7 +31,8 @@ def play_game():
         print(winner + " won.")
     elif winner==None:
         print("Tie")
-            
+
+       #check where error is     
 
 def handle_turn(player):
 
