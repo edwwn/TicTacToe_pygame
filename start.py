@@ -8,3 +8,4 @@ class Polinomial:
 p1 = Polinomial(1,2,3)
 p2 = Polinomial(3,4,3)
 
+#contnue with polynomials
