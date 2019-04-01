@@ -1,9 +1,13 @@
 import numpy as np
 import pygame
 import sys
+import math
 
-BLUE=(0,0,200)
+BLUE=(0,0,255)
 BLACK=(0,0,0)
+RED=(255,0,0)
+YELLOW=(255,255,0)
+
 ROW_COUNT =6
 COLUMN_COUNT=7
 
@@ -57,9 +61,14 @@ def draw_board(board):
     for c in range(COLUMN_COUNT):
         for r in range(ROW_COUNT):
             pygame.draw.rect(screen,BLUE, (c*SQUARESIZE, r*SQUARESIZE+SQUARESIZE, SQUARESIZE, SQUARESIZE))
-            pygame.draw.circle(screen, BLACK, (int(c*SQUARESIZE+SQUARESIZE/2), int(r*SQUARESIZE+SQUARESIZE/2)), RADIUS)
+            if board[r][c]==0:
+                pygame.draw.circle(screen, BLACK, (int(c*SQUARESIZE+SQUARESIZE/2), int(r*SQUARESIZE+SQUARESIZE/2)), RADIUS)
+            elif board[r][c]==1:
+                 pygame.draw.circle(screen, RED, (int(c*SQUARESIZE+SQUARESIZE/2), int(r*SQUARESIZE+SQUARESIZE/2)), RADIUS) 
+            else:
+                 pygame.draw.circle(screen, YELLOW, (int(c*SQUARESIZE+SQUARESIZE/2), int(r*SQUARESIZE+SQUARESIZE/2)), RADIUS)     
 
-        
+    pygame.display.update()    
 
 board=create_board()
 game_over=False
@@ -91,10 +100,11 @@ while not game_over:
             sys.exit()
         
         if event.type == pygame.MOUSEBUTTONDOWN: 
-            continue
+            print(event.pos)
             #Ask for player 1 Intput
             if turn==0:
-                col =int (input("Player 1 Make your Selection (0-6):")) 
+                posx=event.pos[0]
+                col =int(math.floor(posx/SQUARESIZE))
                 if is_valid_location(board,col):
                     row= get_next_open_row(board, col)
                     drop_piece(board,row,col,1)
@@ -105,7 +115,8 @@ while not game_over:
 
             #Ask for player 2 Input    
             else:
-                col =int(input("Player 2 Make your Selection (0-6):"))
+                posx=event.pos[0]
+                col =int(math.floor(posx/SQUARESIZE))
                 if is_valid_location(board,col):
                     row= get_next_open_row(board, col)
                     drop_piece(board,row,col,2)
@@ -115,7 +126,7 @@ while not game_over:
                         game_over=True
                         
             print_baord(board)   
-
+            draw_board(board)
             
             turn +=1
             turn = turn % 2
