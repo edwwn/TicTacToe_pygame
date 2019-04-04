@@ -1,5 +1,5 @@
 class Polinomial:
-    pass
+    
     def__init__(self,*coeffs):
         self.coeffs =coeffs
 
